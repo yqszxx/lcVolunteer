@@ -1,0 +1,12 @@
+{% extends "base.html.twig" %}
+{% block body %}
+    {% trans %}You are about to apply for following recruitment:{% endtrans %}<br>
+    {% trans %}Recruitment:{% endtrans %} {{ timeCell.recruitment.name }}<br>
+    {% trans %}Row:{% endtrans %} {{ timeCell.recruitment.timeTableRows[timeCell.rowNumber] }}<br>
+    {% trans %}Column:{% endtrans %} {{ timeCell.recruitment.timeTableColumns[timeCell.columnNumber] }}<br>
+    {% trans %}Confirm this?{% endtrans %}<br>
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
+    <button onclick="history.go(-1)">{% trans %}Cancel{% endtrans %}</button>
+{% endblock %}

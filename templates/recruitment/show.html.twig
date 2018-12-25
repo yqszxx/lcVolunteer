@@ -1,0 +1,40 @@
+{% extends "base.html.twig" %}
+
+{% set totalColumnNumber = recruitment.timeTableColumns|length %}
+{% set totalRowNumber = recruitment.timeTableRows|length %}
+
+{% block body %}
+    <table border="1">
+        <tr>
+            <th></th>
+            {% for column in recruitment.timeTableColumns %}
+                <th>{{ column }}</th>
+            {% endfor %}
+        </tr>
+        {% for rowNumber in 1..totalRowNumber %}
+            <tr>
+                <td>{{ recruitment.timeTableRows[rowNumber - 1] }}</td>
+                {% for columnNumber in 1..totalColumnNumber %}
+                    {% set timeCell = timeTable[rowNumber][columnNumber] %}
+                    <td>
+                        {{ timeCell.applicants|length }}/{{ timeCell.demand }}<br>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <a href="{{ path('timecell_show', {'id': timeCell.id}) }}">{% trans %}Show{% endtrans %}</a>
+                            <a href="{{ path('timecell_edit', {'id': timeCell.id}) }}">{% trans %}Modify{% endtrans %}</a>
+                        {% else %}
+                            {% if app.user in timeCell.applicants %}
+                                <a>{% trans %}Already Applied{% endtrans %}</a>
+                            {% else %}
+                                {% if timeCell.applicants|length < timeCell.demand %}
+                                    <a href="{{ path('timecell_apply', {'id': timeCell.id}) }}">{% trans %}Apply{% endtrans %}</a>
+                                {% else %}
+                                    <a>{% trans %}Full{% endtrans %}</a>
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                    </td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

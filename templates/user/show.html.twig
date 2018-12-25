@@ -1,0 +1,18 @@
+{% extends "base.html.twig" %}
+{% block body %}
+    {% trans %}Student Number:{% endtrans %} {{ user.studentNumber }}<br>
+    {% trans %}Name:{% endtrans %} {{ user.name }}<br>
+    {% trans %}Gender:{% endtrans %} {{ user.gender == 'male' ? 'Male' : 'Female' }}<br>
+    {% trans %}Phone Number:{% endtrans %} {{ user.phoneNumber }}<br>
+    {% trans %}College:{% endtrans %} {{ user.college }}<br>
+    {% trans %}Grade:{% endtrans %} {{ user.grade }}<br>
+    {% trans %}Room Number:{% endtrans %} {{ user.roomNumber }}<br>
+    {% trans %}Applied Time Cells:{% endtrans %} <br>
+    {% for timeCell in user.appliedTimeCells %}
+        <a href="{{ path('timecell_show', {'id': timeCell.id}) }}">
+            {{ timeCell.recruitment.name }},
+            {{ timeCell.recruitment.timeTableRows[timeCell.rowNumber] }},
+            {{ timeCell.recruitment.timeTableColumns[timeCell.columnNumber] }}
+        </a><br>
+    {% endfor %}
+{% endblock %}

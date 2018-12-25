@@ -1,13 +1,22 @@
 security:
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
-        in_memory: { memory: ~ }
+        # used to reload user from session & other features (e.g. switch_user)
+        app_user_provider:
+            entity:
+                class: App\Entity\User
+                property: studentNumber
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
             anonymous: true
+            guard:
+                authenticators:
+                    - App\Security\StudentNumberAuthenticator
+            logout:
+                path:   app_logout
 
             # activate different ways to authenticate
 
@@ -16,6 +25,10 @@ security:
 
             # form_login: true
             # https://symfony.com/doc/current/security/form_login_setup.html
+
+    role_hierarchy:
+        ROLE_VOLUNTEER: ROLE_USER
+        ROLE_ADMIN:     ROLE_USER
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used

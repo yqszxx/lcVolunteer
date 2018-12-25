@@ -1,0 +1,7 @@
+{% extends "base.html.twig" %}
+{% block body %}
+    {% trans %}Current appliable recruitments:{% endtrans %}<br>
+    {% for recruitment in recruitments %}
+        <a href="{{ path('recruitment_show', {'id': recruitment.id}) }}">{{ recruitment.name }}</a><br>
+    {% endfor %}
+{% endblock %}

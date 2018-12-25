@@ -1,0 +1,11 @@
+{% extends "base.html.twig" %}
+{% block body %}
+    {% trans %}Recruitment:{% endtrans %} {{ timeCell.recruitment.name }}<br>
+    {% trans %}Row:{% endtrans %} {{ timeCell.recruitment.timeTableRows[timeCell.rowNumber] }}<br>
+    {% trans %}Column:{% endtrans %} {{ timeCell.recruitment.timeTableColumns[timeCell.columnNumber] }}<br>
+    {% trans %}Demand:{% endtrans %} {{ timeCell.demand }}<br>
+    {% trans %}Applicants:{% endtrans %}<br>
+    {% for applicant in timeCell.applicants %}
+        <a href="{{ path('user_show', {'studentNumber': applicant.studentNumber}) }}">{{ applicant.name }}</a><br>
+    {% endfor %}
+{% endblock %}

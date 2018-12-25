@@ -1,0 +1,2 @@
+'Your student number must be exact {{ limit }} long.':  学号必须是{{ limit }}位。
+'Provide a valid phone number.':  请提供一个正确的电话号码。
