@@ -2,8 +2,8 @@
 {% block body %}
     {% trans %}You are about to apply for following recruitment:{% endtrans %}<br>
     {% trans %}Recruitment:{% endtrans %} {{ timeCell.recruitment.name }}<br>
-    {% trans %}Row:{% endtrans %} {{ timeCell.recruitment.timeTableRows[timeCell.rowNumber] }}<br>
-    {% trans %}Column:{% endtrans %} {{ timeCell.recruitment.timeTableColumns[timeCell.columnNumber] }}<br>
+    {% trans %}Weekday:{% endtrans %} {{ timeCell.recruitment.timeTableColumns[timeCell.columnNumber] }}<br>
+    {% trans %}Time:{% endtrans %} {{ timeCell.recruitment.timeTableRows[timeCell.rowNumber] }}<br>
     {% trans %}Confirm this?{% endtrans %}<br>
     {{ form_start(form) }}
     {{ form_widget(form) }}

@@ -104,8 +104,6 @@ class RecruitmentController extends AbstractController
             /** @var Recruitment $recruitment */
             $recruitment = $form->getData();
 
-            dump($recruitment);
-
             $entityManager = $this->getDoctrine()->getManager();
 
             for ($rowNumber = 1; $rowNumber <= count($recruitment->getTimeTableRows()); $rowNumber++) {

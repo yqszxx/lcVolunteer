@@ -10,8 +10,8 @@ Log out:                  退出
 Show:                     查看
 Modify:                   编辑
 'Recruitment:':           招募：
-'Row:': 	              行：
-'Column:': 	              列：
+'Time:': 	              时段：
+'Weekday:': 	          星期：
 'Demand:': 	              需求：
 'Applicants:': 	          申请者：
 Demand:                   需求
@@ -58,3 +58,5 @@ Confirm:                  确认
 Cancel:                   取消
 Already Applied:          已加入
 Home:                     首页
+Time table rows:          时间表时段
+Time table columns:       时间表星期
