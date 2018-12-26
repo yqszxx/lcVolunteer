@@ -11,8 +11,8 @@
     {% for timeCell in user.appliedTimeCells %}
         <a href="{{ path('timecell_show', {'id': timeCell.id}) }}">
             {{ timeCell.recruitment.name }},
-            {{ timeCell.recruitment.timeTableRows[timeCell.rowNumber] }},
-            {{ timeCell.recruitment.timeTableColumns[timeCell.columnNumber] }}
+            {{ timeCell.recruitment.timeTableRows[timeCell.rowNumber - 1] }},
+            {{ timeCell.recruitment.timeTableColumns[timeCell.columnNumber - 1] }}
         </a><br>
     {% endfor %}
 {% endblock %}
