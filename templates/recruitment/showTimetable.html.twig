@@ -1,0 +1,33 @@
+{% extends "base.html.twig" %}
+
+{% set totalColumnNumber = recruitment.timeTableColumns|length %}
+{% set totalRowNumber = recruitment.timeTableRows|length %}
+
+{% block body %}
+    {{ recruitment.name }}<br>
+    <table border="1">
+        <tr>
+            <th></th>
+            {% for column in recruitment.timeTableColumns %}
+                <th>{{ column }}</th>
+            {% endfor %}
+        </tr>
+        {% for rowNumber in 1..totalRowNumber %}
+            <tr>
+                <td>{{ recruitment.timeTableRows[rowNumber - 1] }}</td>
+                {% for columnNumber in 1..totalColumnNumber %}
+                    {% set applicants = timeTable[rowNumber][columnNumber].applicants %}
+                    <td>
+                        {% if applicants|length == 0 %}
+                            {% trans %}Empty{% endtrans %}
+                        {% else %}
+                            {% for applicant in applicants %}
+                                {{ applicant.name }}<br>
+                            {% endfor %}
+                        {% endif %}
+                    </td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

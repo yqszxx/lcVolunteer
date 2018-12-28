@@ -1,0 +1,20 @@
+{% extends "base.html.twig" %}
+{% block body %}
+    {% trans %}All users:{% endtrans %}<br>
+    <table>
+        <tr>
+            <th>{% trans %}Student Number{% endtrans %}</th>
+            <th>{% trans %}Name{% endtrans %}</th>
+        </tr>
+        {% for user in users %}
+            <tr>
+                <td>
+                    <a href="{{ path('user_show', {'studentNumber': user.studentNumber}) }}">{{ user.studentNumber }}</a>
+                </td>
+                <td>
+                    {{ user.name }}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

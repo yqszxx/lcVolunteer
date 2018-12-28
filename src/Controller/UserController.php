@@ -43,6 +43,22 @@ class UserController extends AbstractController
 EOF;
 
     /**
+     * @Route("/user/all", name="user_all")
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function showAll()
+    {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        $users = $this->getDoctrine()
+            ->getRepository(User::class)
+            ->findAll();
+
+        return $this->render('user/showAll.html.twig', array(
+            'users' => $users
+        ));
+    }
+
+    /**
      * @Route("/register", name="user_register")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response

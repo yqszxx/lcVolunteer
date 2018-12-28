@@ -58,6 +58,32 @@ class RecruitmentController extends AbstractController
         ));
     }
 
+    /**
+     * @Route("/recruitment/{id}/timetable", name="recruitment_show_timetable", requirements={"id"="\d+"})
+     * @param int $id
+     * @param TranslatorInterface $translator
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function showTimetable(int $id, TranslatorInterface $translator) {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        $recruitment = $this->getDoctrine()
+            ->getRepository(Recruitment::class)
+            ->find($id);
+
+        if (!$recruitment) {
+            throw $this->createNotFoundException($translator->trans("No such recruitment."));
+        }
+
+        $timeTable = array();
+        foreach ($recruitment->getTimeCells() as $timeCell) {
+            $timeTable[$timeCell->getRowNumber()][$timeCell->getColumnNumber()] = $timeCell;
+        }
+        return $this->render("recruitment/showTimetable.html.twig", array(
+            'recruitment' => $recruitment,
+            'timeTable' => $timeTable
+        ));
+    }
+
 //    /**
 //     * @Route("/recruitment/{id}/edit", name="recruitment_edit", requirements={"id"="\d+"})
 //     * @param int $id
