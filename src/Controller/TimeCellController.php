@@ -9,7 +9,6 @@
 namespace App\Controller;
 
 
-use App\Entity\Recruitment;
 use App\Entity\TimeCell;
 use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -117,6 +116,15 @@ class TimeCellController extends AbstractController
 
         // if user has already applied
         if (in_array($user, $timeCell->getApplicants()->getValues())) {
+            return $this->redirectToRoute('recruitment_show', array(
+                'id' => $timeCell->getRecruitment()->getId()
+            ));
+        }
+
+        // Temporary solution, check if time cells applied by user exceed limit.
+        // TODO: Provide a recruitment-wise solution and better message for users.
+        $limit = 3;
+        if (count($user->getAppliedTimeCells()) >= $limit) {
             return $this->redirectToRoute('recruitment_show', array(
                 'id' => $timeCell->getRecruitment()->getId()
             ));
