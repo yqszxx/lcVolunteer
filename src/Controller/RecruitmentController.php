@@ -48,10 +48,8 @@ class RecruitmentController extends AbstractController
             throw $this->createNotFoundException($translator->trans("No such recruitment."));
         }
 
-        $timeTable = array();
-        foreach ($recruitment->getTimeCells() as $timeCell) {
-            $timeTable[$timeCell->getRowNumber()][$timeCell->getColumnNumber()] = $timeCell;
-        }
+        $timeTable = $this->getTimetable($recruitment);
+
         return $this->render("recruitment/show.html.twig", array(
             'recruitment' => $recruitment,
             'timeTable' => $timeTable
@@ -74,13 +72,42 @@ class RecruitmentController extends AbstractController
             throw $this->createNotFoundException($translator->trans("No such recruitment."));
         }
 
-        $timeTable = array();
-        foreach ($recruitment->getTimeCells() as $timeCell) {
-            $timeTable[$timeCell->getRowNumber()][$timeCell->getColumnNumber()] = $timeCell;
-        }
+        $timeTable = $this->getTimetable($recruitment);
+
         return $this->render("recruitment/showTimetable.html.twig", array(
             'recruitment' => $recruitment,
             'timeTable' => $timeTable
+        ));
+    }
+
+    /**
+     * @Route("/recruitment/{id}/applicants", name="recruitment_show_applicants", requirements={"id"="\d+"})
+     * @param int $id
+     * @param TranslatorInterface $translator
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function showApplicants(int $id, TranslatorInterface $translator) {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        $recruitment = $this->getDoctrine()
+            ->getRepository(Recruitment::class)
+            ->find($id);
+
+        if (!$recruitment) {
+            throw $this->createNotFoundException($translator->trans("No such recruitment."));
+        }
+
+        $applicants = array();
+        foreach ($recruitment->getTimeCells() as $timeCell) {
+            foreach ($timeCell->getApplicants() as $applicant) {
+                if (!in_array($applicant, $applicants)) {
+                    $applicants[] = $applicant;
+                }
+            }
+        }
+
+        return $this->render("recruitment/showApplicants.html.twig", array(
+            'recruitment' => $recruitment,
+            'applicants' => $applicants
         ));
     }
 
@@ -153,5 +180,21 @@ class RecruitmentController extends AbstractController
         return $this->render('recruitment/add.html.twig', array(
             'form' => $form->createView(),
         ));
+    }
+
+    /**
+     * Generate timetable array with format:
+     *     [ROW_NUMBER][COLUMN_NUMBER] = timeCellObject
+     *     ROW_NUMBER and COLUMN_NUMBER starts with 1, indicate actual location of timecell in timetable
+     * @param Recruitment $recruitment
+     * @return array
+     */
+    private function getTimetable(Recruitment $recruitment)
+    {
+        $timeTable = array();
+        foreach ($recruitment->getTimeCells() as $timeCell) {
+            $timeTable[$timeCell->getRowNumber()][$timeCell->getColumnNumber()] = $timeCell;
+        }
+        return $timeTable;
     }
 }

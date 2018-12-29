@@ -2,8 +2,7 @@
 {% block body %}
     {% trans %}Student Number:{% endtrans %} {{ user.studentNumber }}<br>
     {% trans %}Name:{% endtrans %} {{ user.name }}<br>
-    {% trans %}Gender:{% endtrans %} {{ user.gender == 'male' ? 'Male' : 'Female' }}<br>
-    {% trans %}Phone Number:{% endtrans %} {{ user.phoneNumber }}<br>
+    {% trans %}Phone Number:{% endtrans %} {% trans %}{{ user.phoneNumber }}{% endtrans %}<br>
     {% trans %}College:{% endtrans %} {{ user.college }}<br>
     {% trans %}Grade:{% endtrans %} {{ user.grade }}<br>
     {% trans %}Room Number:{% endtrans %} {{ user.roomNumber }}<br>

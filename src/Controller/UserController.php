@@ -43,6 +43,20 @@ class UserController extends AbstractController
 EOF;
 
     /**
+     * Generate an array with format: ['COLLEGE_NAME'] = 'COLLEGE_NAME'
+     * @return array
+     */
+    private function getColleges()
+    {
+        $collegeArray = preg_split('/\n/', self::collegeListString);
+        $collegeKV = array();
+        foreach ($collegeArray as $college) {
+            $collegeKV[$college] = $college;
+        }
+        return $collegeKV;
+    }
+
+    /**
      * @Route("/user/all", name="user_all")
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -68,12 +82,6 @@ EOF;
         $user = new User();
         $user->setRoles(array('ROLE_VOLUNTEER'));
 
-        $collegeArray = preg_split('/\n/', self::collegeListString);
-        $collegeKV = array();
-        foreach ($collegeArray as $college) {
-            $collegeKV[$college] = $college;
-        }
-
         $form = $this->createFormBuilder($user)
             ->add('name', TextType::class)
             ->add('studentNumber', TextType::class)
@@ -85,7 +93,7 @@ EOF;
             ))
             ->add('phoneNumber', TextType::class)
             ->add('college', ChoiceType::class, array(
-                'choices' => $collegeKV
+                'choices' => $this->getColleges()
             ))
             ->add('grade', ChoiceType::class, array(
                 'choices' => array(

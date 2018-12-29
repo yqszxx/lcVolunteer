@@ -5,6 +5,7 @@
         <a href="{{ path('recruitment_show', {'id': recruitment.id}) }}">{{ recruitment.name }}</a>
         {% if is_granted('ROLE_ADMIN') %}
             <a href="{{ path('recruitment_show_timetable', {'id': recruitment.id}) }}">{% trans %}Show timetable{% endtrans %}</a>
+            <a href="{{ path('recruitment_show_applicants', {'id': recruitment.id}) }}">{% trans %}Show applicants{% endtrans %}</a>
         {% endif %}
         <br>
     {% endfor %}

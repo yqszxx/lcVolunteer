@@ -1,0 +1,27 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+    {{ recruitment.name }}<br>
+    <table border="1">
+        <tr>
+            <th>{% trans %}Student number{% endtrans %}</th>
+            <th>{% trans %}Name{% endtrans %}</th>
+            <th>{% trans %}Phone number{% endtrans %}</th>
+            <th>{% trans %}Gender{% endtrans %}</th>
+            <th>{% trans %}College{% endtrans %}</th>
+            <th>{% trans %}Grade{% endtrans %}</th>
+            <th>{% trans %}Room number{% endtrans %}</th>
+        </tr>
+        {% for applicant in applicants %}
+            <tr>
+                <td>{{ applicant.studentNumber }}</td>
+                <td>{{ applicant.name }}</td>
+                <td>{{ applicant.phoneNumber }}</td>
+                <td>{% if applicant.gender == 'male' %}{% trans %}Male{% endtrans %}{% else %}{% trans %}Female{% endtrans %}{% endif %}</td>
+                <td>{{ applicant.college }}</td>
+                <td>{% if applicant.grade == 'udg' %}{% trans %}Undergraduate{% endtrans %}{% else %}{% trans %}Graduate{% endtrans %}{% endif %}</td>
+                <td>{{ applicant.roomNumber }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
