@@ -98,6 +98,11 @@ class TimeCellController extends AbstractController
         /** @var User $user */
         $user = $this->getUser();
 
+        if (!($user->getGender() && $user->getPhoneNumber() && $user->getRoomNumber())) {
+            $this->addFlash('error', 'Complete your profile first!');
+            return $this->redirectToRoute('user_profile');
+        }
+
         /** @var TimeCell $timeCell */
         $timeCell = $this->getDoctrine()
             ->getRepository(TimeCell::class)

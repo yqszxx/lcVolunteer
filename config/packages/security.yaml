@@ -14,7 +14,7 @@ security:
             anonymous: true
             guard:
                 authenticators:
-                    - App\Security\StudentNumberAuthenticator
+                    - App\Security\XmuAuthenticator
             logout:
                 path:   app_logout
 

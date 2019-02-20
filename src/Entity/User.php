@@ -24,8 +24,6 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=14, unique=true)
-     * @Assert\NotBlank
-     * @Assert\Length(min=14, max=14, exactMessage="Your student number must be exact {{ limit }} long.")
      *
      */
     private $studentNumber;
@@ -37,39 +35,28 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=32)
-     * @Assert\NotBlank
      */
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=4)
-     * @Assert\NotBlank
+     * @ORM\Column(type="string", length=4, nullable=true)
      * @Assert\Choice(choices={"male", "fema"}, message="Choose a valid gender.")
      */
     private $gender;
 
     /**
-     * @ORM\Column(type="string", length=11)
-     * @Assert\NotBlank
+     * @ORM\Column(type="string", length=11, nullable=true)
      * @Assert\Regex("/^(13[0-9]|14[5-9]|15[012356789]|166|17[0-8]|18[0-9]|19[8-9])[0-9]{8}$/", message="Provide a valid phone number.")
      */
     private $phoneNumber;
 
     /**
      * @ORM\Column(type="string", length=50)
-     * @Assert\NotBlank
      */
     private $college;
 
     /**
-     * @ORM\Column(type="string", length=4)
-     * @Assert\NotBlank
-     * @Assert\Choice(choices={"udg", "gra"}, message="Choose a valid grade.")
-     */
-    private $grade;
-
-    /**
-     * @ORM\Column(type="string", length=20)
+     * @ORM\Column(type="string", length=20, nullable=true)
      * @Assert\NotBlank
      */
     private $roomNumber;
@@ -145,18 +132,6 @@ class User implements UserInterface
     public function setCollege(string $college): self
     {
         $this->college = $college;
-
-        return $this;
-    }
-
-    public function getGrade(): ?string
-    {
-        return $this->grade;
-    }
-
-    public function setGrade(string $grade): self
-    {
-        $this->grade = $grade;
 
         return $this;
     }

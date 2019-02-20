@@ -18,44 +18,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class UserController extends AbstractController
 {
-    private const collegeListString = <<<EOF
-人文学院
-社会与人类学院
-新闻传播学院
-法学院/知识产权研究院/南海研究院
-外文学院
-艺术学院
-数学科学学院
-物理科学与技术学院
-信息科学与技术学院
-电子科学与技术学院
-建筑与土木工程学院
-化学化工学院
-材料学院
-经济学院/王亚南经济研究院
-管理学院/财务管理与会计研究院
-公共事务学院/公共政策研究院
-软件学院
-国际关系学院/南洋研究院
-台湾研究院
-教育研究院
-马克思主义学院
-EOF;
-
-    /**
-     * Generate an array with format: ['COLLEGE_NAME'] = 'COLLEGE_NAME'
-     * @return array
-     */
-    private function getColleges()
-    {
-        $collegeArray = preg_split('/\n/', self::collegeListString);
-        $collegeKV = array();
-        foreach ($collegeArray as $college) {
-            $collegeKV[$college] = $college;
-        }
-        return $collegeKV;
-    }
-
     /**
      * @Route("/user/all", name="user_all")
      * @return \Symfony\Component\HttpFoundation\Response
@@ -73,18 +35,20 @@ EOF;
     }
 
     /**
-     * @Route("/register", name="user_register")
+     * @Route("/profile", name="user_profile")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function register(Request $request)
+    public function profile(Request $request)
     {
-        $user = new User();
-        $user->setRoles(array('ROLE_VOLUNTEER'));
+        $this->denyAccessUnlessGranted('ROLE_VOLUNTEER');
+        $entityManager = $this->getDoctrine()->getManager();
+        $user = $entityManager->getRepository(User::class)->findOneBy(['studentNumber' => $this->getUser()->getStudentNumber()]);
 
         $form = $this->createFormBuilder($user)
-            ->add('name', TextType::class)
-            ->add('studentNumber', TextType::class)
+            ->add('name', TextType::class, ['disabled' => true])
+            ->add('studentNumber', TextType::class, ['disabled' => true])
+            ->add('college', TextType::class, ['disabled' => true])
             ->add('gender', ChoiceType::class, array(
                 'choices' => array(
                     'Male' => 'male',
@@ -92,15 +56,6 @@ EOF;
                 )
             ))
             ->add('phoneNumber', TextType::class)
-            ->add('college', ChoiceType::class, array(
-                'choices' => $this->getColleges()
-            ))
-            ->add('grade', ChoiceType::class, array(
-                'choices' => array(
-                    'Undergraduate' => 'udg',
-                    'Graduate' => 'gra'
-                )
-            ))
             ->add('roomNumber', TextType::class)
             ->add('submit', SubmitType::class, ['label' => 'Submit'])
             ->getForm();
@@ -110,14 +65,13 @@ EOF;
         if ($form->isSubmitted() && $form->isValid()) {
             $user = $form->getData();
 
-            $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_login');
+            $this->addFlash('success', 'Profile updated!');
         }
 
-        return $this->render('user/register.html.twig', array(
+        return $this->render('user/profile.html.twig', array(
             'form' => $form->createView(),
         ));
     }
