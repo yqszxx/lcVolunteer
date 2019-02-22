@@ -25,13 +25,13 @@ Female:                   女
 Phone number:             电话号码
 College:                  学院
 Grade:                    本/硕
-Undergraduate:            本科
-Graduate:                 硕士
+Quit:                     退出
 Room number:              宿舍楼栋-房间号
 Submit:                   提交
 Apply:                    申请
 Full:                     已满
 'You are about to apply for following recruitment:': 你将要申请如下招募：
+'You are about to quit following recruitment:': 你将要退出如下招募：
 Confirm this?:            确认吗？
 Confirm:                  确认
 Cancel:                   取消

@@ -24,7 +24,8 @@
                             <a href="{{ path('timecell_edit', {'id': timeCell.id}) }}">{% trans %}Modify{% endtrans %}</a>
                         {% else %}
                             {% if app.user in timeCell.applicants %}
-                                <a>{% trans %}Already Applied{% endtrans %}</a>
+                                <a>{% trans %}Already Applied{% endtrans %}</a><br>
+                                <a href="{{ path('timecell_quit', {'id': timeCell.id}) }}">{% trans %}Quit{% endtrans %}</a>
                             {% else %}
                                 {% if timeCell.applicants|length < timeCell.demand %}
                                     <a href="{{ path('timecell_apply', {'id': timeCell.id}) }}">{% trans %}Apply{% endtrans %}</a>
