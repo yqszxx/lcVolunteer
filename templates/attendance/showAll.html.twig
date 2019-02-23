@@ -1,0 +1,23 @@
+{% extends "base.html.twig" %}
+{% block body %}
+    <table border="1">
+        <tr>
+            <th>{% trans %}Student Number{% endtrans %}</th>
+            <th>{% trans %}Name{% endtrans %}</th>
+            <th>{% trans %}Sign In Time{% endtrans %}</th>
+            <th>{% trans %}Sign Out Time{% endtrans %}</th>
+        </tr>
+        {% for attendance in attendances %}
+            <tr>
+                <td>
+                    <a href="{{ path('user_show', {'studentNumber': attendance.owner.studentNumber }) }}">
+                        {{ attendance.owner.studentNumber }}
+                    </a>
+                </td>
+                <td>{{ attendance.owner.name }}</td>
+                <td>{{ attendance.signInTime | date("Y/m/d H:i:s") }}</td>
+                <td>{{ attendance.signOutTime | date("Y/m/d H:i:s") }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

@@ -66,9 +66,20 @@ class User implements UserInterface
      */
     private $appliedTimeCells;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Attendance", mappedBy="owner", orphanRemoval=true)
+     */
+    private $attendances;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Attendance", cascade={"persist", "remove"})
+     */
+    private $currentAttendance;
+
     public function __construct()
     {
         $this->appliedTimeCells = new ArrayCollection();
+        $this->attendances = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -226,6 +237,49 @@ class User implements UserInterface
             $this->appliedTimeCells->removeElement($appliedTimeCell);
             $appliedTimeCell->removeApplicant($this);
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Attendance[]
+     */
+    public function getAttendances(): Collection
+    {
+        return $this->attendances;
+    }
+
+    public function addAttendance(Attendance $attendance): self
+    {
+        if (!$this->attendances->contains($attendance)) {
+            $this->attendances[] = $attendance;
+            $attendance->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAttendance(Attendance $attendance): self
+    {
+        if ($this->attendances->contains($attendance)) {
+            $this->attendances->removeElement($attendance);
+            // set the owning side to null (unless already changed)
+            if ($attendance->getOwner() === $this) {
+                $attendance->setOwner(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getCurrentAttendance(): ?Attendance
+    {
+        return $this->currentAttendance;
+    }
+
+    public function setCurrentAttendance(?Attendance $currentAttendance): self
+    {
+        $this->currentAttendance = $currentAttendance;
 
         return $this;
     }

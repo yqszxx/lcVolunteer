@@ -1,8 +1,5 @@
-Please sign in:           请登录
 Student Number:           学号
 Name:                     姓名
-Sign in:                  登录
-Sign up:                  注册
 Welcome!:                 欢迎！
 Log in!:                  登录！
 Log out:                  退出
@@ -24,7 +21,6 @@ Male:                     男
 Female:                   女
 Phone number:             电话号码
 College:                  学院
-Grade:                    本/硕
 Quit:                     退出
 Room number:              宿舍楼栋-房间号
 Submit:                   提交
@@ -41,3 +37,9 @@ Time table rows:          时间表时段
 Time table columns:       时间表星期
 'Use XMU account to log in': 使用厦门大学统一身份认证登录
 'Hello %name%!':          你好，%name%！
+Sign in code:             签到码
+Sign in:                  签到
+Sign out:                 签退
+Sign in code incorrect.:  签到码不正确。
+Successfully signed in.:  签到成功。
+Successfully signed out.: 签退成功。

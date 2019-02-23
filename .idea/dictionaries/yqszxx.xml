@@ -5,8 +5,11 @@
       <w>csrf</w>
       <w>endtrans</w>
       <w>recruitments</w>
+      <w>signin</w>
+      <w>signout</w>
       <w>timecell</w>
       <w>timecells</w>
+      <w>yqszxx</w>
     </words>
   </dictionary>
 </component>
