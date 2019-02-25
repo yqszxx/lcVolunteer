@@ -29,12 +29,24 @@ class AttendanceController extends AbstractController
 {
     /**
      * @Route("/signin", name="signin")
-     * @IsGranted("ROLE_VOLUNTEER")
+     * @IsGranted("ROLE_USER")
      * @param Request $request
+     * @param TranslatorInterface $translator
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function signIn(Request $request, TranslatorInterface $translator)
     {
+        /* @var $user User */
+        $user = $this->getUser();
+
+        if (count($user->getAppliedTimeCells()->getValues()) == 0) {
+            $this->createAccessDeniedException();
+        }
+
+        if ($user->getCurrentAttendance() != null) {
+            return $this->redirectToRoute('attendance_signout');
+        }
+
         $secret = "2SGYMKJTI24CZW72";
 
         $em = $this->getDoctrine()->getManager();
@@ -61,8 +73,7 @@ class AttendanceController extends AbstractController
                 } catch (\Exception $e) {
 
                 }
-                /* @var $user User */
-                $user = $this->getUser();
+
                 $attendance = new Attendance();
                 $attendance->setSignInTime($now);
                 $attendance->setOwner($user);
@@ -85,8 +96,9 @@ class AttendanceController extends AbstractController
 
     /**
      * @Route("/signout", name="signout")
-     * @IsGranted("ROLE_VOLUNTEER")
+     * @IsGranted("ROLE_USER")
      * @param Request $request
+     * @param TranslatorInterface $translator
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function signOut(Request $request, TranslatorInterface $translator) {
@@ -123,7 +135,7 @@ class AttendanceController extends AbstractController
             return $this->redirectToRoute('attendance_signin');
         }
 
-        return $this->render('attendance/signIn.html.twig', ['form' => $form->createView()]);
+        return $this->render('attendance/signOut.html.twig', ['form' => $form->createView()]);
     }
 
 

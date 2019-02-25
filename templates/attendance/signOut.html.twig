@@ -3,6 +3,7 @@
     {% for message in app.flashes('success') %}
         {{ message }}
     {% endfor %}
+    <p>签到时间:{{ app.user.currentAttendance.signInTime | date("Y/m/d H:i:s") }}</p>
     {{ form_start(form) }}
     {{ form_widget(form) }}
     {{ form_end(form) }}

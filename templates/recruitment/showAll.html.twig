@@ -9,5 +9,9 @@
         {% endif %}
         <br>
     {% endfor %}
-    <a href="{{ path('attendance_signin') }}" style="font-size: 2em">{% trans %}Sign In{% endtrans %}</a><br>
+    {% if is_granted('ROLE_VOLUNTEER') %}
+        {% if app.user.appliedTimeCells | length > 0 %}
+            <a href="{{ path('attendance_signin') }}" style="font-size: 2em">{% trans %}Sign In / Out{% endtrans %}</a><br>
+        {% endif %}
+    {% endif %}
 {% endblock %}
