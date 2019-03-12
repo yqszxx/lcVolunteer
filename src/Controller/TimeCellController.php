@@ -9,8 +9,8 @@
 namespace App\Controller;
 
 
-use App\Entity\TimeCell;
-use App\Entity\User;
+use App\Entity\Main\TimeCell;
+use App\Entity\Main\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;

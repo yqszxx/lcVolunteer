@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Main;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\RecruitmentRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\Main\RecruitmentRepository")
  */
 class Recruitment
 {
@@ -34,7 +34,7 @@ class Recruitment
     private $timeTableColumns = [];
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\TimeCell", mappedBy="recruitment", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Main\TimeCell", mappedBy="recruitment", orphanRemoval=true)
      */
     private $timeCells;
 

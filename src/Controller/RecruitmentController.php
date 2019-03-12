@@ -9,8 +9,8 @@
 namespace App\Controller;
 
 
-use App\Entity\Recruitment;
-use App\Entity\TimeCell;
+use App\Entity\Main\Recruitment;
+use App\Entity\Main\TimeCell;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;

@@ -8,8 +8,8 @@
 
 namespace App\Controller;
 
-use App\Entity\Attendance;
-use App\Entity\User;
+use App\Entity\Main\Attendance;
+use App\Entity\Main\User;
 use RobThree\Auth\TwoFactorAuth;
 use RobThree\Auth\TwoFactorAuthException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;

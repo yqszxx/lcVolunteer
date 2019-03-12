@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Main;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\AttendanceRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\Main\AttendanceRepository")
  */
 class Attendance
 {
@@ -27,7 +27,7 @@ class Attendance
     private $signOutTime;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="attendances")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Main\User", inversedBy="attendances")
      * @ORM\JoinColumn(nullable=false)
      */
     private $owner;

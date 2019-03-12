@@ -16,7 +16,13 @@
                 </td>
                 <td>{{ attendance.owner.name }}</td>
                 <td>{{ attendance.signInTime | date("Y/m/d H:i:s") }}</td>
-                <td>{{ attendance.signOutTime | date("Y/m/d H:i:s") }}</td>
+                <td>
+                    {% if attendance.signOutTime == null %}
+                        ----/--/-- --:--:--
+                    {% else %}
+                        {{ attendance.signOutTime | date("Y/m/d H:i:s") }}
+                    {% endif %}
+                </td>
             </tr>
         {% endfor %}
     </table>

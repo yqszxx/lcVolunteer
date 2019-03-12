@@ -1,0 +1,26 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Location</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>State</th>
+                <th>Reason</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in records %}
+                <tr>
+                    <td>{{ record.name }}</td>
+                    <td>{{ record.startTime | date("Y/m/d H:i:s") }}</td>
+                    <td>{{ record.endTime | date("Y/m/d H:i:s") }}</td>
+                    <td>{{ record.state }}</td>
+                    <td>{{ record.reason }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

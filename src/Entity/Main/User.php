@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Main;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\Main\UserRepository")
  * @UniqueEntity("studentNumber")
  */
 class User implements UserInterface
@@ -62,17 +62,17 @@ class User implements UserInterface
     private $roomNumber;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\TimeCell", mappedBy="applicants")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Main\TimeCell", mappedBy="applicants")
      */
     private $appliedTimeCells;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Attendance", mappedBy="owner", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Main\Attendance", mappedBy="owner", orphanRemoval=true)
      */
     private $attendances;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Attendance", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="App\Entity\Main\Attendance", cascade={"persist", "remove"})
      */
     private $currentAttendance;
 

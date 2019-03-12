@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Main;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\TimeCellRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\Main\TimeCellRepository")
  */
 class TimeCell
 {
@@ -19,7 +19,7 @@ class TimeCell
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Recruitment", inversedBy="timeCells")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Main\Recruitment", inversedBy="timeCells")
      * @ORM\JoinColumn(nullable=false)
      */
     private $recruitment;
@@ -35,7 +35,7 @@ class TimeCell
     private $columnNumber;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\User", inversedBy="applicatedTimeCells")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Main\User", inversedBy="applicatedTimeCells")
      */
     private $applicants;
 
