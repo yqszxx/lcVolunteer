@@ -3,7 +3,6 @@
 namespace App\Security;
 
 use App\Entity\Main\User;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,13 +18,11 @@ class XmuAuthenticator extends AbstractFormLoginAuthenticator
 {
     use TargetPathTrait;
 
-    private $entityManager;
     private $router;
     private $container;
 
-    public function __construct(EntityManagerInterface $entityManager, RouterInterface $router, ContainerInterface $container)
+    public function __construct(RouterInterface $router, ContainerInterface $container)
     {
-        $this->entityManager = $entityManager;
         $this->router = $router;
         $this->container = $container;
     }
@@ -77,7 +74,8 @@ class XmuAuthenticator extends AbstractFormLoginAuthenticator
 
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
-        $user = $this->entityManager->getRepository(User::class)->findOneBy(['studentNumber' => $credentials['studentNumber']]);
+        $em = $this->container->get('doctrine')->getManager('default');
+        $user = $em->getRepository(User::class)->findOneBy(['studentNumber' => $credentials['studentNumber']]);
 
         if (!$user) {
             $user = new User();
@@ -85,8 +83,8 @@ class XmuAuthenticator extends AbstractFormLoginAuthenticator
                 ->setName($credentials['name'])
                 ->setCollege($credentials['college'])
                 ->setRoles(array('ROLE_VOLUNTEER'));
-            $this->entityManager->persist($user);
-            $this->entityManager->flush();
+            $em->persist($user);
+            $em->flush();
         }
 
         return $user;
