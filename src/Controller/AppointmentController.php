@@ -26,27 +26,26 @@ class AppointmentController extends AbstractController
      */
     public function showAllConferenceRoom() {
         $repo = $this->getDoctrine()->getRepository(BookingRecord::class, 'appointment');
-        $records = $repo->findBy(['resourceType' => BookingRecord::ConferenceRoom], ['startTime' => 'DESC'], 10);
+        $states = $this->getDoctrine()
+            ->getRepository(DictState::class, 'appointment')
+            ->findAll();
         $data = [];
-        foreach ($records as $record) {
-            $roomId = $record->getResourceId();
-            $name = $this->getDoctrine()
-                ->getRepository(ConferenceRoom::class, 'appointment')
-                ->find($roomId)
-                ->getName();
-            $stateId = $record->getState();
-            $state = $this->getDoctrine()
-                ->getRepository(DictState::class, 'appointment')
-                ->find($stateId)
-                ->getName();
-            $data[] = array(
-                'name' => $name,
-                'startTime' => $record->getStartTime(),
-                'endTime' => $record->getEndTime(),
-                'state' => $state,
-                'reason' => $record->getReason(),
-            );
+        foreach ($states as $state) {
+            $records = $repo->findBy(['resourceType' => BookingRecord::ConferenceRoom, 'state' => $state->getValue()], ['startTime' => 'DESC'], 10);
+            foreach ($records as $record) {
+                $roomId = $record->getResourceId();
+                $roomName = $this->getDoctrine()
+                    ->getRepository(ConferenceRoom::class, 'appointment')
+                    ->find($roomId)
+                    ->getName();
+                $data[$state->getName()][] = [
+                    'name' => $roomName,
+                    'startTime' => $record->getStartTime(),
+                    'endTime' => $record->getEndTime(),
+                    'reason' => $record->getReason(),
+                ];
+            }
         }
-        return $this->render('appointment/showAllConferenceRoom.html.twig', ['records' => $data]);
+        return $this->render('appointment/showAllConferenceRoom.html.twig', ['data' => $data]);
     }
 }
