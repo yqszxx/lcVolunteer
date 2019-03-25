@@ -57,7 +57,7 @@ class XmuAuthenticator extends AbstractFormLoginAuthenticator
 
             $matches = array();
             preg_match("#<cas:eduPersonOrgDN>(.*)</cas:eduPersonOrgDN>#", $responseString, $matches);
-            $college = $matches[1];
+            $college = $matches[1] ? $matches[1] : 'empty';
 
             $credentials = [
                 'success' => true,
