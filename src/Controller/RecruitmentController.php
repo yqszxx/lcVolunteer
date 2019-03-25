@@ -129,7 +129,7 @@ class RecruitmentController extends AbstractController
         $recruitment = $this->getDoctrine()->getRepository(Recruitment::class)->find($id);
         $form = $this->createFormBuilder($recruitment)
             ->add('name', TextType::class)
-            ->add('archived', CheckboxType::class)
+            ->add('archived', CheckboxType::class, ['required' => false])
             ->add('submit', SubmitType::class, ['label' => 'Update'])
             ->getForm();
 
