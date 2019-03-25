@@ -11,7 +11,9 @@ namespace App\Controller;
 
 use App\Entity\Main\Recruitment;
 use App\Entity\Main\TimeCell;
+use App\Entity\Main\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
@@ -40,11 +42,16 @@ class RecruitmentController extends AbstractController
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function show(int $id, TranslatorInterface $translator) {
+        $this->denyAccessUnlessGranted('ROLE_USER');
         $recruitment = $this->getDoctrine()
             ->getRepository(Recruitment::class)
             ->find($id);
 
         if (!$recruitment) {
+            throw $this->createNotFoundException($translator->trans("No such recruitment."));
+        }
+
+        if ($recruitment->getArchived() && !$this->isGranted('ROLE_ADMIN')) {
             throw $this->createNotFoundException($translator->trans("No such recruitment."));
         }
 
@@ -111,30 +118,39 @@ class RecruitmentController extends AbstractController
         ));
     }
 
-//    /**
-//     * @Route("/recruitment/{id}/edit", name="recruitment_edit", requirements={"id"="\d+"})
-//     * @param int $id
-//     * @return \Symfony\Component\HttpFoundation\Response
-//     */
-//    public function edit(int $id) {
-//        /* TODO: make this. */
-//        $recruitment = $this->getDoctrine()
-//            ->getRepository(Recruitment::class)
-//            ->find($id);
-//
-//        if (!$recruitment) {
-//            throw $this->createNotFoundException("No such recruitment.");
-//        }
-//
-//        $timeTable = array();
-//        foreach ($recruitment->getTimeCells() as $timeCell) {
-//            $timeTable[$timeCell->getRowNumber()][$timeCell->getColumnNumber()] = $timeCell;
-//        }
-//        return $this->render("recruitment/show.html.twig", array(
-//            'recruitment' => $recruitment,
-//            'timeTable' => $timeTable
-//        ));
-//    }
+    /**
+     * @Route("/recruitment/{id}/edit", name="recruitment_edit", requirements={"id"="\d+"})
+     * @param int $id
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function edit(int $id, Request $request) {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        $recruitment = $this->getDoctrine()->getRepository(Recruitment::class)->find($id);
+        $form = $this->createFormBuilder($recruitment)
+            ->add('name', TextType::class)
+            ->add('archived', CheckboxType::class)
+            ->add('submit', SubmitType::class, ['label' => 'Update'])
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var Recruitment $recruitment */
+            $recruitment = $form->getData();
+
+            $entityManager = $this->getDoctrine()->getManager();
+
+            $entityManager->persist($recruitment);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('recruitment_all');
+        }
+
+        return $this->render('recruitment/edit.html.twig', array(
+            'form' => $form->createView(),
+        ));
+    }
 
     /**
      * @Route("/recruitment/add", name="recruitment_add")
@@ -170,6 +186,8 @@ class RecruitmentController extends AbstractController
                     $entityManager->persist($timeCell);
                 }
             }
+
+            $recruitment->setArchived(false);
 
             $entityManager->persist($recruitment);
             $entityManager->flush();

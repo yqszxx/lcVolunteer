@@ -8,7 +8,11 @@
     {% trans %}Applied Time Cells:{% endtrans %} <br>
     {% for timeCell in user.appliedTimeCells %}
         <a href="{{ path('timecell_show', {'id': timeCell.id}) }}">
-            {{ timeCell.recruitment.name }},
+            {% if timeCell.recruitment.disabled %}
+                <del>{{ timeCell.recruitment.name }}</del>,
+            {% else %}
+                {{ timeCell.recruitment.name }},
+            {% endif %}
             {{ timeCell.recruitment.timeTableRows[timeCell.rowNumber - 1] }},
             {{ timeCell.recruitment.timeTableColumns[timeCell.columnNumber - 1] }}
         </a><br>

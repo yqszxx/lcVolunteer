@@ -38,6 +38,11 @@ class Recruitment
      */
     private $timeCells;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $archived;
+
     public function __construct()
     {
         $this->timeCells = new ArrayCollection();
@@ -119,6 +124,18 @@ class Recruitment
                 $timeCell->setRecruitment(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getArchived(): ?bool
+    {
+        return $this->archived;
+    }
+
+    public function setArchived(bool $archived): self
+    {
+        $this->archived = $archived;
 
         return $this;
     }

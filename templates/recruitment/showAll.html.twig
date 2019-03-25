@@ -2,12 +2,24 @@
 {% block body %}
     {% trans %}Current appliable recruitments:{% endtrans %}<br>
     {% for recruitment in recruitments %}
-        <a href="{{ path('recruitment_show', {'id': recruitment.id}) }}">{{ recruitment.name }}</a>
-        {% if is_granted('ROLE_ADMIN') %}
-            <a href="{{ path('recruitment_show_timetable', {'id': recruitment.id}) }}">{% trans %}Show timetable{% endtrans %}</a>
-            <a href="{{ path('recruitment_show_applicants', {'id': recruitment.id}) }}">{% trans %}Show applicants{% endtrans %}</a>
+        {% if recruitment.archived %}
+            {% if is_granted('ROLE_ADMIN') %}
+                <a href="{{ path('recruitment_show', {'id': recruitment.id}) }}"><del>{{ recruitment.name }}</del></a>
+                <a href="{{ path('recruitment_show_timetable', {'id': recruitment.id}) }}">{% trans %}Show timetable{% endtrans %}</a>
+                <a href="{{ path('recruitment_show_applicants', {'id': recruitment.id}) }}">{% trans %}Show applicants{% endtrans %}</a>
+                <a href="{{ path('recruitment_edit', {'id': recruitment.id}) }}">{% trans %}Edit{% endtrans %}</a>
+                <br>
+            {% endif %}
+        {% else %}
+            <a href="{{ path('recruitment_show', {'id': recruitment.id}) }}">{{ recruitment.name }}</a>
+            {% if is_granted('ROLE_ADMIN') %}
+                <a href="{{ path('recruitment_show', {'id': recruitment.id}) }}">{{ recruitment.name }}</a>
+                <a href="{{ path('recruitment_show_timetable', {'id': recruitment.id}) }}">{% trans %}Show timetable{% endtrans %}</a>
+                <a href="{{ path('recruitment_show_applicants', {'id': recruitment.id}) }}">{% trans %}Show applicants{% endtrans %}</a>
+                <a href="{{ path('recruitment_edit', {'id': recruitment.id}) }}">{% trans %}Edit{% endtrans %}</a>
+            {% endif %}
+            <br>
         {% endif %}
-        <br>
     {% endfor %}
     {% if is_granted('ROLE_ADMIN') %}
         <a href="{{ path('attendance_all') }}">{% trans %}Attendance details{% endtrans %}</a><br>
