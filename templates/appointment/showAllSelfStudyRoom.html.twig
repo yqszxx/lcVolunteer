@@ -1,0 +1,8 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+    <h2>Self Study Room List</h2>
+    {% for room in rooms %}
+        <a href="{{ path('appointment_self_study_room', {'roomId': room.id}) }}">{{ room.name }}</a><br>
+    {% endfor %}
+{% endblock %}

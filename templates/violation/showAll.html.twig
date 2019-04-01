@@ -1,0 +1,25 @@
+{% extends "base.html.twig" %}
+{% block body %}
+    <table border="1">
+        <tr>
+            <th>{% trans %}Booking Record{% endtrans %}</th>
+            <th>{% trans %}Reason{% endtrans %}</th>
+            <th>{% trans %}Volunteer{% endtrans %}</th>
+            <th>{% trans %}Time{% endtrans %}</th>
+        </tr>
+        {% for violation in violations %}
+            <tr>
+                <td>
+                    <a href="#">
+                        {{ violation.bookingId }}
+                    </a>
+                </td>
+                <td>{{ violation.reason }}</td>
+                <td>{{ violation.volunteer.name }}</td>
+                <td>
+                    {{ violation.time | date("Y/m/d H:i:s") }}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

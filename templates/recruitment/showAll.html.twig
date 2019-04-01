@@ -22,8 +22,9 @@
     {% endfor %}
     {% if is_granted('ROLE_ADMIN') %}
         <a href="{{ path('attendance_all') }}">{% trans %}Attendance details{% endtrans %}</a><br>
-        <a href="{{ path('appointment_all_conference_room') }}">{% trans %}Conference room appointments{% endtrans %}</a><br>
     {% endif %}
+    <a href="{{ path('appointment_all_conference_room') }}">{% trans %}Conference room appointments{% endtrans %}</a><br>
+    <a href="{{ path('appointment_all_self_study_room') }}">{% trans %}Self study room map{% endtrans %}</a><br>
     {% if is_granted('ROLE_VOLUNTEER') %}
         {% if app.user.appliedTimeCells | length > 0 %}
             <a href="{{ path('attendance_signin') }}" style="font-size: 2em">{% trans %}Sign In / Out{% endtrans %}</a><br>

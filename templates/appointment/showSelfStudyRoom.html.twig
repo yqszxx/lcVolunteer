@@ -1,0 +1,30 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+    {% for message in app.flashes('success') %}
+        {{ message }}
+    {% endfor %}
+    <h2>{{ map.roomName }}</h2>
+    <p>{% trans %}Blue: Currently occupied{% endtrans %}</p>
+    <p>{% trans %}Black: Currently free{% endtrans %}</p>
+    <p>{% trans %}Click on blue links to add a violation.{% endtrans %}</p>
+    <table border="1">
+        <tbody>
+            {% for x in 1..map.x %}
+                <tr>
+                    {% for y in 1..map.y %}
+                        <td>
+                            {% if map.grid[x][y].status == 0 %}
+                                {{ map.grid[x][y].number|raw }}
+                            {#{% elseif map.grid[x][y].status == 3 %} #}{# Reserved #}
+                                {#<div style="color: fuchsia">{{ map.grid[x][y].number|raw }}</div>#}
+                            {% elseif map.grid[x][y].status == 4 %} {# In Use #}
+                                <a href="{{ path('violation_add', {'bookingId': map.grid[x][y].bookingId}) }}">{{ map.grid[x][y].number|raw }}</a>
+                            {% endif %}
+                        </td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
